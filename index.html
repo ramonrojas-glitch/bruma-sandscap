@@ -493,18 +493,18 @@ footer .demo{margin-top:40px;padding-top:20px;border-top:1px solid color-mix(in 
     x = Math.min(0, Math.max(cw - dw, x)); y = Math.min(0, Math.max(ch - dh, y));
     return (geo = { x, y, dw, dh });
   }
+  // One whole frame at a time. Never mix two frames see-through: the footage moves a lot between
+  // frames, and a half-transparent mix shows both positions at once (a ghost / afterimage).
   function draw() {
-    const i = Math.floor(cur), t = cur - i;
-    const key = Math.round(cur * 20);
-    if (key === lastDrawn) return;
+    const i = Math.round(cur);
     const a = frames[i] || nearest(frames, i); if (!a) return;
+    const key = a === frames[i] ? i : -2 - i;
+    if (key === lastDrawn) return;
     const g = geometry(a);
-    bctx.globalAlpha = 1; bctx.drawImage(a, g.x, g.y, g.dw, g.dh);
-    const b = frames[i + 1];
-    if (b && t > 0.03 && frames[i]) { bctx.globalAlpha = t; bctx.drawImage(b, g.x, g.y, g.dw, g.dh); bctx.globalAlpha = 1; }
+    bctx.drawImage(a, g.x, g.y, g.dw, g.dh);
     fctx.clearRect(0, 0, fg.width, fg.height);
-    const m = Math.round(cur);
-    if (m < FILM.fgN) { const mm = mattes[m] || (mattes.some(Boolean) ? nearest(mattes, Math.min(m, FILM.fgN - 1)) : null); if (mm) fctx.drawImage(mm, g.x, g.y, g.dw, g.dh); }
+    // the cut-out foreground must come from the same frame as the background, or its edges double up
+    if (i < FILM.fgN && a === frames[i] && mattes[i]) fctx.drawImage(mattes[i], g.x, g.y, g.dw, g.dh);
     lastDrawn = key;
   }
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
