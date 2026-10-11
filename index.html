@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bruma · Café de Altura</title>
+<meta name="description" content="Café dominicano de altura, del grano a la taza. Sitio de demostración de Sandscap.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ECE3D5">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bruma.sandscap.com.do/">
+<meta property="og:title" content="Bruma · Café de Altura">
+<meta property="og:description" content="Del grano a la taza en una sola toma. Demo de Sandscap para cafeterías de especialidad.">
+<meta property="og:image" content="https://bruma.sandscap.com.do/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23231711'/%3E%3Cpath d='M5 20 L12 11 L16 15 L20 9 L27 20' fill='none' stroke='%23ECE3D5' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M7 24h18' stroke='%23ECE3D5' stroke-width='1.6' stroke-linecap='round' opacity='.6'/%3E%3C/svg%3E">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one pinned stage scrubbing a single continuous shot down the coffee's path (bean → doser tap → pour-over → carafe → cup), then a coffee-bag-label system for menu, lots, shop and stores. Single warm-paper look by choice: the footage is shot on this paper. */
+:root{
+  --paper:#ECE3D5;          /* matches the studio sweep in the footage */
+  --paper-2:#E2D9CB;        /* label stock, one step darker */
+  --ink:#231711;            /* dark roast */
+  --ink-soft:#5F4F44;       /* roasted husk */
+  --cereza:#9C2A22;         /* ripe coffee cherry, the one accent */
+  --hoja:#3D5638;           /* coffee leaf, for "open now" and altitude */
+  --line:rgba(35,23,17,.16);
+  --f-display:"Gloock", "Bodoni Moda", "Didot", Georgia, serif;
+  --f-body:"Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --gutter:clamp(16px, 4vw, 56px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cereza);outline-offset:3px}
+.mono{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:30;padding:calc(env(safe-area-inset-top,0px) + 14px) var(--gutter) 14px;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:background .3s, box-shadow .3s}
+.nav.solid{background:color-mix(in srgb, var(--paper) 92%, transparent);backdrop-filter:blur(8px);box-shadow:0 1px 0 var(--line)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo svg{width:30px;height:22px}
+.logo b{font-family:var(--f-display);font-weight:400;font-size:1.65rem;line-height:1;letter-spacing:-.01em}
+.logo small{display:block;font-family:var(--f-mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.nav ul a{text-decoration:none;font-size:.9rem;font-weight:500}
+.nav ul a:hover{color:var(--cereza)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);border-radius:999px;padding:10px 18px;font:500 .88rem/1 var(--f-body);text-decoration:none;background:transparent;color:var(--ink);cursor:pointer;transition:background .2s,color .2s}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.fill{background:var(--ink);color:var(--paper)}
+.btn.fill:hover{background:var(--cereza);border-color:var(--cereza)}
+@media (max-width:860px){.nav ul{display:none}}
+
+/* ---------- the film: one pinned stage, one continuous shot ---------- */
+.film{position:relative;height:1050vh;background:var(--paper)}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#fg{z-index:3;pointer-events:none}
+.beat{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;will-change:opacity,transform}
+.beat.under{z-index:2}
+.beat a,.beat button{pointer-events:auto}
+.beat h1,.beat h2{font-family:var(--f-display);font-weight:400;text-transform:uppercase;font-size:clamp(3.6rem,8.8vw,9.6rem);line-height:.9;letter-spacing:-.03em;margin:0}
+.beat.under h1{font-size:clamp(3.6rem,10.6vw,11.6rem);line-height:.86}
+.hl.right h2{font-size:clamp(3.4rem,7.4vw,8rem)}
+.hl{position:absolute;left:var(--gutter);top:30%}
+.hl.low{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 9vh)}
+.hl.right{left:auto;right:var(--gutter);text-align:right;top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 12vh)}
+.side{position:absolute;right:var(--gutter);top:31%;width:min(21vw,290px);display:grid;gap:12px;z-index:5;padding:18px 18px 20px;background:color-mix(in srgb,var(--paper) 84%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--line)}
+.side.left{right:auto;left:var(--gutter);top:calc(env(safe-area-inset-top,0px) + 15vh)}
+.num{font-family:var(--f-display);font-size:clamp(2.6rem,4vw,4rem);line-height:.9}
+.bignum{position:absolute;left:var(--gutter);top:calc(env(safe-area-inset-top,0px) + 13vh);font-family:var(--f-display);font-size:clamp(4rem,7vw,7.5rem);line-height:1;color:var(--ink)}
+.side h3{font-family:var(--f-display);font-weight:400;font-size:1.45rem;line-height:1.1;margin:0}
+.side p{margin:0;color:var(--ink-soft);font-size:.92rem;line-height:1.5}
+.spec{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.spec li{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.05em;border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:color-mix(in srgb,var(--paper) 75%,transparent)}
+.ctas{display:flex;flex-wrap:wrap;gap:10px}
+.hud{position:absolute;inset:auto var(--gutter) calc(env(safe-area-inset-bottom,0px) + 24px) var(--gutter);display:flex;justify-content:space-between;align-items:center;z-index:6;color:var(--ink-soft);pointer-events:none}
+.scroll-hint{display:flex;gap:10px;align-items:center;transition:opacity .4s}
+.scroll-hint span{display:block;width:1px;height:28px;background:var(--ink-soft);animation:drip 1.8s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.meter-ring{display:flex;align-items:center;gap:12px}
+.meter-ring svg{width:38px;height:38px;transform:rotate(-90deg)}
+.meter-ring circle{fill:none;stroke-width:1.5}
+.meter-ring .bg{stroke:var(--line)}
+.meter-ring .fgc{stroke:var(--ink);stroke-dasharray:100;stroke-dashoffset:calc(100 - var(--p,0) * 100)}
+
+@media (max-width:760px){
+  .film{height:900vh}
+  .stage canvas{top:24%;height:60%}
+  .beat h1,.beat h2{font-size:clamp(2.9rem,14vw,4.6rem)}
+  .hl,.hl.low,.hl.right{left:var(--gutter);right:var(--gutter);text-align:left;top:calc(env(safe-area-inset-top,0px) + 78px);bottom:auto}
+  .side,.side.left{left:var(--gutter);right:var(--gutter);width:auto;top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 70px);gap:8px}
+  .side .num,.bignum{display:none}
+  .side h3{font-size:1.15rem}
+  .side p{font-size:.86rem}
+  .side .spec,.side p.more{display:none}
+  .hud{bottom:calc(env(safe-area-inset-bottom,0px) + 14px);justify-content:flex-end}
+  .side,.side.left{bottom:calc(env(safe-area-inset-bottom,0px) + 62px);padding:14px 14px 16px}
+  .beat.under h1{font-size:clamp(2.9rem,14vw,4.6rem)}
+  .hl.right h2{font-size:clamp(2.9rem,14vw,4.6rem)}
+  .scroll-hint{display:none}
+}
+@media (max-width:760px) and (max-height:700px){.side p{display:none}}
+
+/* ---------- la taza: split screen with origin carousel ---------- */
+.taza{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);min-height:88vh;border-top:1px solid var(--line)}
+.taza-img{position:relative;overflow:hidden;background:var(--paper-2);min-height:420px}
+.taza-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+.tag{position:absolute;background:var(--paper);border:1px solid var(--line);padding:10px 14px 11px;min-width:150px;max-width:230px;box-shadow:0 14px 30px -18px rgba(35,23,17,.55);transform:rotate(var(--r,0deg));transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.tag .mono{color:var(--cereza);font-size:.62rem}
+.tag b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.25rem;line-height:1.15;margin-top:3px}
+.tag::before{content:"";position:absolute;top:10px;right:10px;width:7px;height:7px;border-radius:50%;border:1px solid var(--ink-soft)}
+.tag.swap{opacity:0;transform:rotate(var(--r,0deg)) translateY(8px)}
+.taza-copy{padding:clamp(40px,6vw,88px) var(--gutter);display:grid;align-content:center;gap:22px;min-width:0}
+.taza-copy h2{font-family:var(--f-display);font-weight:400;text-transform:uppercase;font-size:clamp(3rem,6.4vw,6.6rem);line-height:.86;letter-spacing:-.025em;margin:0;text-align:right}
+.taza-copy p{margin:0;color:var(--ink-soft);max-width:42ch;justify-self:end;text-align:right}
+.carousel{display:flex;justify-content:flex-end;align-items:center;gap:14px}
+.carousel .count{white-space:nowrap;font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.arrow{width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:transparent;color:var(--ink);font:400 1.1rem/1 var(--f-body);cursor:pointer}
+.arrow:hover{background:var(--ink);color:var(--paper)}
+@media (max-width:860px){.taza{grid-template-columns:1fr}.taza-img{min-height:62vh}.taza-copy h2,.taza-copy p{text-align:left;justify-self:start}.carousel{justify-content:flex-start}}
+
+/* ---------- sections ---------- */
+.wrap{padding-inline:var(--gutter);max-width:1360px;margin-inline:auto}
+section.block{padding-block:clamp(72px,10vw,140px);border-top:1px solid var(--line)}
+.head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px 48px;align-items:end;margin-bottom:clamp(36px,5vw,64px)}
+.head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(2.6rem,6vw,5.6rem);line-height:.92;letter-spacing:-.02em;margin:10px 0 0;text-transform:uppercase;text-wrap:balance}
+.head p{margin:0;color:var(--ink-soft);max-width:46ch}
+.eyebrow{color:var(--cereza)}
+@media (max-width:760px){.head{grid-template-columns:1fr}}
+
+/* menu */
+.menu-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px}
+.menu-tabs button{font:500 .88rem/1 var(--f-body);border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:10px 16px;cursor:pointer}
+.menu-tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.menu-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:56px}
+.menu-list li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:4px 16px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
+.menu-list h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:1.45rem;line-height:1.15}
+.menu-list p{grid-column:1/2;margin:0;color:var(--ink-soft);font-size:.92rem}
+.price{font-family:var(--f-mono);font-size:.9rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.add{grid-row:1/3;grid-column:3;align-self:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--ink);background:transparent;color:var(--ink);font:400 1.3rem/1 var(--f-body);cursor:pointer;transition:background .2s,color .2s,transform .2s}
+.add:hover{background:var(--ink);color:var(--paper)}
+.add.pop{transform:scale(1.18);background:var(--cereza);border-color:var(--cereza);color:var(--paper)}
+@media (max-width:760px){.menu-list{grid-template-columns:1fr}}
+
+/* origins */
+.lots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.lot{background:var(--paper-2);padding:22px 20px 20px;display:grid;grid-template-rows:auto auto 1fr auto;gap:14px;position:relative;min-width:0}
+.lot::before{content:"";position:absolute;top:14px;right:14px;width:10px;height:10px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line)}
+.lot .mono{color:var(--ink-soft)}
+.lot h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:1.9rem;line-height:1}
+.lot dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;font-size:.88rem}
+.lot dt{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);padding-top:2px}
+.lot dd{margin:0}
+.alt{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:end;gap:12px;border-top:1px dashed var(--line);padding-top:14px}
+.alt b{font-family:var(--f-display);font-weight:400;font-size:2rem;line-height:1;font-variant-numeric:tabular-nums}
+.alt b small{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;margin-left:4px;color:var(--ink-soft)}
+.meter{height:56px;position:relative;border-left:1px solid var(--line)}
+.meter span{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(to top, var(--hoja), color-mix(in srgb,var(--hoja) 55%, var(--paper-2)));clip-path:polygon(0 100%,0 calc(100% - var(--h)),18% calc(100% - var(--h) + 6%),36% calc(100% - var(--h) - 4%),58% calc(100% - var(--h) + 8%),78% calc(100% - var(--h) + 2%),100% calc(100% - var(--h) + 10%),100% 100%);height:100%}
+.meter em{position:absolute;right:0;top:-2px;font-style:normal;font-family:var(--f-mono);font-size:.6rem;color:var(--ink-soft)}
+.lot .add-lot{justify-self:start}
+@media (max-width:1060px){.lots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.lots{grid-template-columns:1fr}}
+
+/* shop */
+.shop{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1.25fr);gap:16px}
+.prod{border:1px solid var(--line);padding:22px;display:grid;gap:12px;align-content:start;min-width:0}
+.prod .pack{aspect-ratio:4/5;max-width:100%;background:var(--paper-2);display:grid;place-items:center;position:relative;overflow:hidden}
+.bag{width:56%;aspect-ratio:3/4;background:var(--ink);border-radius:6px 6px 10px 10px;position:relative;display:grid;place-items:center;box-shadow:0 18px 30px -16px rgba(35,23,17,.6)}
+.bag::before{content:"";position:absolute;top:-6%;left:8%;right:8%;height:12%;background:var(--ink);border-radius:3px;filter:brightness(1.25)}
+.bag .lbl{width:74%;background:var(--paper);padding:10px 6px;text-align:center}
+.bag .lbl b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.05rem;line-height:1}
+.bag .lbl i{display:block;font-style:normal;font-family:var(--f-mono);font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cereza);margin-top:4px}
+.bag.light{background:#D6CABA}.bag.light::before{background:#D6CABA}
+.caps{display:grid;grid-template-columns:repeat(3,22px);gap:8px}
+.caps span{width:22px;height:22px;border-radius:50%;background:var(--cereza);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)}
+.caps span:nth-child(3n+2){background:var(--ink)}.caps span:nth-child(3n){background:var(--hoja)}
+.prod h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:1.5rem;line-height:1.1}
+.prod p{margin:0;color:var(--ink-soft);font-size:.9rem}
+.prod .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.prod select{font:500 .85rem var(--f-body);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:8px 12px;max-width:100%}
+.club{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.club p{color:color-mix(in srgb,var(--paper) 72%,var(--ink))}
+.club .mono{color:#E29A8F}
+.club h3{font-size:2.2rem}
+.freq{display:grid;grid-template-columns:1fr 1fr;border:1px solid color-mix(in srgb,var(--paper) 30%,transparent);border-radius:999px;padding:3px}
+.freq button{font:500 .85rem/1 var(--f-body);background:transparent;color:var(--paper);border:0;border-radius:999px;padding:10px 8px;cursor:pointer}
+.freq button[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.club .big{font-family:var(--f-display);font-size:3rem;line-height:1;font-variant-numeric:tabular-nums}
+.club .big small{display:block;margin:8px 0 0!important;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;margin-left:6px;color:color-mix(in srgb,var(--paper) 65%,var(--ink))}
+.club ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:.9rem}
+.club ul li::before{content:"— ";color:#E29A8F}
+.club .btn{border-color:var(--paper);color:var(--paper)}
+.club .btn:hover{background:var(--paper);color:var(--ink)}
+@media (max-width:1100px){.shop{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.shop{grid-template-columns:1fr}}
+
+/* stores */
+.stores{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--ink)}
+.store{padding:24px 24px 28px 0;display:grid;gap:10px;align-content:start;min-width:0}
+.store + .store{padding-left:24px;border-left:1px solid var(--line)}
+.store h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:2rem;line-height:1}
+.store p{margin:0;color:var(--ink-soft);font-size:.92rem}
+.hours{font-family:var(--f-mono);font-size:.78rem;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-variant-numeric:tabular-nums}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;justify-self:start;padding:5px 10px;border-radius:999px;border:1px solid var(--line)}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ink-soft)}
+.status.open{color:var(--hoja);border-color:color-mix(in srgb,var(--hoja) 40%,transparent)}
+.status.open::before{background:var(--hoja);box-shadow:0 0 0 3px color-mix(in srgb,var(--hoja) 22%,transparent)}
+@media (max-width:860px){.stores{grid-template-columns:1fr}.store,.store + .store{padding:22px 0;border-left:0;border-bottom:1px solid var(--line)}}
+
+/* footer */
+footer{background:var(--ink);color:var(--paper);padding-block:64px calc(env(safe-area-inset-bottom,0px) + 120px)}
+footer .big{font-family:var(--f-display);font-size:clamp(4rem,17vw,15rem);line-height:.8;letter-spacing:-.03em;margin:0 0 40px}
+footer .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;font-size:.9rem;color:color-mix(in srgb,var(--paper) 72%,var(--ink))}
+footer .cols b{display:block;color:var(--paper);font-weight:600;margin-bottom:6px}
+footer .demo{margin-top:40px;padding-top:20px;border-top:1px solid color-mix(in srgb,var(--paper) 18%,transparent);font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;color:color-mix(in srgb,var(--paper) 60%,var(--ink))}
+@media (max-width:760px){footer .cols{grid-template-columns:1fr}}
+
+/* cart */
+.cart{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:translate(-50%,140%);z-index:40;width:min(560px,calc(100% - 32px));background:var(--ink);color:var(--paper);border-radius:22px;box-shadow:0 24px 50px -20px rgba(35,23,17,.7);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.cart.show{transform:translate(-50%,0)}
+.cart-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 10px 10px 20px}
+.cart-bar button.toggle{background:none;border:0;color:inherit;font:500 .92rem var(--f-body);cursor:pointer;display:flex;gap:10px;align-items:center;padding:6px 0;text-align:left}
+.cart-bar .count{display:inline-grid;place-items:center;min-width:24px;height:24px;border-radius:12px;background:var(--cereza);font-family:var(--f-mono);font-size:.75rem;padding:0 6px}
+.cart .btn.wa{white-space:nowrap;background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.cart .btn.wa:hover{background:#E29A8F;border-color:#E29A8F}
+.cart-body{padding:4px 20px 18px;display:grid;gap:10px;max-height:min(52vh,420px);overflow:auto}
+.cart-body ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.cart-body li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;font-size:.9rem;border-bottom:1px solid color-mix(in srgb,var(--paper) 14%,transparent);padding-bottom:8px}
+.qty{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.8rem}
+.qty button{width:26px;height:26px;border-radius:50%;border:1px solid color-mix(in srgb,var(--paper) 40%,transparent);background:transparent;color:var(--paper);cursor:pointer;font:500 .9rem/1 var(--f-body)}
+.cart-body label{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--paper) 65%,var(--ink))}
+.cart-body select{width:100%;font:500 .9rem var(--f-body);padding:9px 12px;border-radius:10px;border:1px solid color-mix(in srgb,var(--paper) 25%,transparent);background:var(--ink);color:var(--paper);margin-top:4px}
+@media (max-width:480px){.lbl-t{display:none}}
+.cart-body .note{font-size:.75rem;color:color-mix(in srgb,var(--paper) 60%,var(--ink));margin:0}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .scroll-hint span{animation:none}
+  .tag{transition:none}
+}
+</style>
+
+</head>
+<body>
+<header class="nav" id="nav">
+  <a class="logo" href="#top" aria-label="Bruma, inicio">
+    <svg viewBox="0 0 30 22" aria-hidden="true"><path d="M1 15 L9 5 L14 10 L19 3 L29 15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 18.5h24M7 21h16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".55"/></svg>
+    <span><b>bruma</b><small>Café de altura</small></span>
+  </a>
+  <ul>
+    <li><a href="#menu">Menú</a></li>
+    <li><a href="#origenes">Orígenes</a></li>
+    <li><a href="#tienda">Tienda</a></li>
+    <li><a href="#visitanos">Visítanos</a></li>
+  </ul>
+  <a class="btn fill" href="#menu">Pedir ahora</a>
+</header>
+
+<main id="top">
+  <section class="film" aria-label="Del grano a la taza">
+    <div class="stage">
+      <canvas id="bg" aria-hidden="true"></canvas>
+
+      <div class="beat under" data-in="0" data-out="0.12">
+        <div class="hl"><h1>Despierta<br>el grano</h1></div>
+      </div>
+      <canvas id="fg" aria-hidden="true"></canvas>
+      <div class="beat" data-in="0" data-out="0.12">
+        <div class="side">
+          <span class="num">1</span>
+          <h3>Café de especialidad dominicano</h3>
+          <p>Tostado en lotes pequeños cada lunes en Jarabacoa y servido en nuestra barra esa misma semana.</p>
+          <ul class="spec"><li>1,250 msnm</li><li>Caturra · lavado</li></ul>
+          <div class="ctas"><a class="btn fill" href="#menu">Ver el menú</a></div>
+        </div>
+      </div>
+
+      <div class="beat" data-in="0.2" data-out="0.42">
+        <span class="bignum">2</span>
+        <div class="hl low"><h2>Extrae<br>lo mejor</h2></div>
+        <div class="side">
+          <h3>Espresso Cordillera</h3>
+          <p>Cuerpo de cacao y un final de panela. Lo calibramos tres veces al día, porque la humedad del trópico cambia la molienda.</p>
+          <ul class="spec"><li>18 g</li><li>36 g</li><li>28 s</li><li>93 °C</li></ul>
+        </div>
+      </div>
+
+      <div class="beat" data-in="0.47" data-out="0.7">
+        <span class="bignum">3</span>
+        <div class="hl low"><h2>Déjalo<br>florecer</h2></div>
+        <div class="side">
+          <h3>Filtrado en V60</h3>
+          <p>Los primeros 30 segundos lo deciden todo: el café suelta el gas del tueste y se abre. Pídelo con cualquiera de nuestros cuatro orígenes.</p>
+          <ul class="spec"><li>15 g</li><li>250 ml</li><li>1:16</li><li>Bloom 30 s</li></ul>
+        </div>
+      </div>
+
+      <div class="beat" data-in="0.8" data-out="1.01">
+        <div class="hl right"><h2>Sabe a<br>montaña</h2></div>
+        <div class="side left">
+          <span class="num">4</span>
+          <h3>En tu taza</h3>
+          <p class="more">Leche entera o de coco y arte latte hecho a mano. El origen va escrito en tu vaso.</p>
+          <div class="ctas"><a class="btn fill" href="#menu">Armar mi pedido</a></div>
+        </div>
+      </div>
+
+      <div class="hud mono" aria-hidden="true">
+        <span class="scroll-hint" id="hint"><span></span>Baja para prepararlo</span>
+        <span class="meter-ring"><span id="stepLabel">01 / 04</span><svg viewBox="0 0 36 36"><circle class="bg" cx="18" cy="18" r="15.9"/><circle class="fgc" id="ring" cx="18" cy="18" r="15.9" pathLength="100"/></svg></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="taza" id="taza" aria-label="Elige tu origen">
+    <div class="taza-img">
+      <img src="taza.webp" alt="Latte con arte en taza de cerámica sobre remolino de café y leche" width="1600" height="1200">
+      <div class="tag" data-t="0" style="--r:-5deg;left:8%;top:14%"><span class="mono">Origen</span><b id="tOrigen">Polo, Barahona</b></div>
+      <div class="tag" data-t="1" style="--r:4deg;right:7%;top:30%"><span class="mono">Tueste</span><b id="tTueste">Medio</b></div>
+      <div class="tag" data-t="2" style="--r:-3deg;left:12%;bottom:12%"><span class="mono">Notas</span><b id="tNotas">Cereza, cacao, melaza</b></div>
+    </div>
+    <div class="taza-copy">
+      <span class="eyebrow mono" style="justify-self:end">Elige tu origen</span>
+      <h2>Hazlo<br>tuyo</h2>
+      <p id="tDesc">Cuatro lotes de cuatro montañas. Pasa entre ellos y pide tu V60 o tu latte con el que más te llame.</p>
+      <div class="carousel">
+        <span class="count" id="tCount">02 / 04</span>
+        <button class="arrow" id="prevLot" aria-label="Origen anterior">‹</button>
+        <button class="arrow" id="nextLot" aria-label="Siguiente origen">›</button>
+        <button class="btn fill" id="orderLot">Pedir V60 de Polo</button>
+      </div>
+    </div>
+  </section>
+  <section class="block wrap" id="menu">
+    <div class="head">
+      <div><span class="eyebrow mono">La barra</span><h2>Menú de la casa</h2></div>
+      <p>Lo clásico de cafetería con lo que solo se toma aquí: cortadito, café colao en colador de tela y espresso con chinola. Toca + para ir armando tu pedido y mándalo por WhatsApp.</p>
+    </div>
+    <div class="menu-tabs" role="tablist" aria-label="Categorías del menú" id="tabs"></div>
+    <ul class="menu-list" id="menuList"></ul>
+  </section>
+
+  <section class="block wrap" id="origenes">
+    <div class="head">
+      <div><span class="eyebrow mono">Cuatro lotes, cuatro montañas</span><h2>Nuestros orígenes</h2></div>
+      <p>Compramos directo a fincas de la Cordillera Central y la Sierra de Bahoruco. Cada lote trae su altura, su variedad y su proceso, y eso es lo que vas a sentir en la taza.</p>
+    </div>
+    <div class="lots" id="lots"></div>
+  </section>
+
+  <section class="block wrap" id="tienda">
+    <div class="head">
+      <div><span class="eyebrow mono">Para la casa y la oficina</span><h2>Lleva Bruma contigo</h2></div>
+      <p>Grano entero, molido para greca o cápsulas compatibles. Con el Club Bruma te llega fresco a la puerta, tostado la misma semana.</p>
+    </div>
+    <div class="shop">
+      <article class="prod">
+        <div class="pack"><div class="bag"><div class="lbl"><b>bruma</b><i>Grano entero</i></div></div></div>
+        <span class="mono" style="color:var(--ink-soft)">Bolsa 12 oz</span>
+        <h3>Grano entero de origen</h3>
+        <label class="mono" for="originSel" style="color:var(--ink-soft)">Origen</label>
+        <select id="originSel"></select>
+        <div class="row"><span class="price">RD$ 695</span><button class="btn" data-add="grano">Agregar</button></div>
+      </article>
+      <article class="prod">
+        <div class="pack"><div class="bag light"><div class="lbl"><b>bruma</b><i>Molido para greca</i></div></div></div>
+        <span class="mono" style="color:var(--ink-soft)">Bolsa 10 oz</span>
+        <h3>Molido Cordillera</h3>
+        <p>Molienda media, pensada para la greca de toda la vida.</p>
+        <div class="row"><span class="price">RD$ 595</span><button class="btn" data-add="molido">Agregar</button></div>
+      </article>
+      <article class="prod">
+        <div class="pack"><div class="caps"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+        <span class="mono" style="color:var(--ink-soft)">Caja de 10</span>
+        <h3>Cápsulas compatibles</h3>
+        <p>Espresso, lungo e intenso. Compatibles con las máquinas más comunes.</p>
+        <div class="row"><span class="price">RD$ 450</span><button class="btn" data-add="capsulas">Agregar</button></div>
+      </article>
+      <article class="prod club">
+        <span class="mono">Suscripción</span>
+        <h3>Club Bruma</h3>
+        <p>Dos bolsas de 12 oz del origen que elijas, tostadas la semana de tu entrega.</p>
+        <div class="freq" role="group" aria-label="Frecuencia de entrega">
+          <button type="button" aria-pressed="true" data-freq="2">Cada 2 semanas</button>
+          <button type="button" aria-pressed="false" data-freq="4">Cada mes</button>
+        </div>
+        <div class="big" id="clubPrice">RD$ 1,250<small>por entrega</small></div>
+        <ul>
+          <li>10% menos que comprar suelto</li>
+          <li>Envío gratis en Santo Domingo y Santiago</li>
+          <li id="clubMonthly">RD$ 2,500 al mes</li>
+          <li>Pausa o cancela cuando quieras</li>
+        </ul>
+        <button class="btn" data-add="club">Unirme al club</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="block wrap" id="visitanos">
+    <div class="head">
+      <div><span class="eyebrow mono">Tres barras</span><h2>Visítanos</h2></div>
+      <p>Wifi rápido, enchufes en todas las mesas y el mismo café en las tres. En Zona Colonial abrimos hasta las 10 de la noche.</p>
+    </div>
+    <div class="stores" id="stores"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big">bruma</p>
+    <div class="cols">
+      <div><b>Café de altura</b>Tostado en Jarabacoa, servido en Santo Domingo y Santiago.</div>
+      <div><b>Pedidos</b>WhatsApp 809-555-0175<br>hola@bruma.example</div>
+      <div><b>Síguenos</b>@bruma.cafe en Instagram y TikTok</div>
+    </div>
+    <p class="demo">Bruma es una marca de demostración creada por Sandscap para mostrar este estilo de sitio. Fotos y video generados con IA; precios, direcciones y teléfono son de ejemplo.</p>
+  </div>
+</footer>
+
+<aside class="cart" id="cart" aria-label="Tu pedido">
+  <div class="cart-body" id="cartBody" hidden>
+    <ul id="cartList"></ul>
+    <div>
+      <label for="pickup">Retirar en</label>
+      <select id="pickup"></select>
+    </div>
+    <p class="note">Demo: el pedido se arma como mensaje de WhatsApp a un número de prueba.</p>
+  </div>
+  <div class="cart-bar">
+    <button class="toggle" id="cartToggle" aria-expanded="false" aria-controls="cartBody"><span class="count" id="cartCount">0</span><span id="cartTotal">Tu pedido</span></button>
+    <a class="btn wa" id="waLink" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+  </div>
+</aside>
+
+<script>window.__FILM__={dir:"v",n:237,fgDir:"m",fgN:30};</script>
+<script>
+(() => {
+  /* ---------- the film: scroll scrubs one continuous frame sequence ---------- */
+  const FILM = window.__FILM__;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const film = document.querySelector('.film');
+  const bg = document.getElementById('bg'), fg = document.getElementById('fg');
+  const bctx = bg.getContext('2d'), fctx = fg.getContext('2d');
+  const frames = new Array(FILM.n), mattes = new Array(FILM.fgN);
+  const beats = [...document.querySelectorAll('.beat')].map(el => ({ el, a: +el.dataset.in, b: +el.dataset.out }));
+  const ring = document.getElementById('ring'), stepLabel = document.getElementById('stepLabel'), hint = document.getElementById('hint');
+  const nav = document.getElementById('nav');
+  let target = 0, cur = 0, lastDrawn = -1, geo = null;
+  const pad = n => String(n + 1).padStart(4, '0');
+
+  function loadInto(arr, dir, k) {
+    return new Promise(res => {
+      if (arr[k]) return res();
+      const im = new Image(); im.decoding = 'async';
+      im.onload = () => { arr[k] = im; lastDrawn = -1; res(); };
+      im.onerror = res; im.src = `${dir}/${pad(k)}.webp`;
+    });
+  }
+  async function loadAll() {
+    await loadInto(frames, FILM.dir, 0);
+    await Promise.all(Array.from({ length: FILM.fgN }, (_, k) => k).filter(k => k < 6).map(k => loadInto(mattes, FILM.fgDir, k)));
+    const order = [];
+    for (const step of [16, 8, 4, 2, 1]) for (let k = 0; k < FILM.n; k += step) if (!order.includes(k)) order.push(k);
+    for (let i = 0; i < order.length; i += 8) await Promise.all(order.slice(i, i + 8).map(k => loadInto(frames, FILM.dir, k)));
+    for (let k = 0; k < FILM.fgN; k++) await loadInto(mattes, FILM.fgDir, k);
+  }
+  function nearest(arr, k) {
+    for (let d = 0; d < arr.length; d++) { if (arr[k - d]) return arr[k - d]; if (arr[k + d]) return arr[k + d]; }
+    return null;
+  }
+  function size() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    [bg, fg].forEach(c => { const r = c.getBoundingClientRect(); c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr); });
+    geo = null; lastDrawn = -1;
+  }
+  function geometry(im) {
+    if (geo) return geo;
+    const cw = bg.width, ch = bg.height, iw = im.naturalWidth, ih = im.naturalHeight;
+    const narrow = innerWidth <= 760;
+    const s = Math.max(cw / iw, ch / ih) * (narrow ? 1.08 : 1);
+    const dw = iw * s, dh = ih * s, fx = narrow ? 0.54 : 0.5;
+    let x = cw / 2 - dw * fx, y = ch / 2 - dh / 2;
+    x = Math.min(0, Math.max(cw - dw, x)); y = Math.min(0, Math.max(ch - dh, y));
+    return (geo = { x, y, dw, dh });
+  }
+  function draw() {
+    const i = Math.floor(cur), t = cur - i;
+    const key = Math.round(cur * 20);
+    if (key === lastDrawn) return;
+    const a = frames[i] || nearest(frames, i); if (!a) return;
+    const g = geometry(a);
+    bctx.globalAlpha = 1; bctx.drawImage(a, g.x, g.y, g.dw, g.dh);
+    const b = frames[i + 1];
+    if (b && t > 0.03 && frames[i]) { bctx.globalAlpha = t; bctx.drawImage(b, g.x, g.y, g.dw, g.dh); bctx.globalAlpha = 1; }
+    fctx.clearRect(0, 0, fg.width, fg.height);
+    const m = Math.round(cur);
+    if (m < FILM.fgN) { const mm = mattes[m] || (mattes.some(Boolean) ? nearest(mattes, Math.min(m, FILM.fgN - 1)) : null); if (mm) fctx.drawImage(mm, g.x, g.y, g.dw, g.dh); }
+    lastDrawn = key;
+  }
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  function beatsAt(p) {
+    const f = 0.035;
+    let active = 0;
+    beats.forEach((bt, idx) => {
+      let o;
+      if (bt.a <= 0) o = clamp((bt.b - p) / f, 0, 1);
+      else if (bt.b > 1) o = clamp((p - bt.a) / f, 0, 1);
+      else o = Math.min(clamp((p - bt.a) / f, 0, 1), clamp((bt.b - p) / f, 0, 1));
+      const local = clamp((p - bt.a) / Math.max(0.001, Math.min(bt.b, 1) - bt.a), 0, 1);
+      bt.el.style.opacity = o.toFixed(3);
+      bt.el.style.transform = reduce ? 'none' : `translateY(${((0.5 - local) * 70).toFixed(1)}px)`;
+      bt.el.style.visibility = o < 0.01 ? 'hidden' : 'visible';
+    });
+    active = p < 0.17 ? 1 : p < 0.45 ? 2 : p < 0.75 ? 3 : 4;
+    stepLabel.textContent = `0${active} / 04`;
+    ring.style.setProperty('--p', p.toFixed(3));
+    hint.style.opacity = p > 0.03 ? 0 : 1;
+  }
+  function measure() {
+    const r = film.getBoundingClientRect();
+    const p = clamp(-r.top / (r.height - innerHeight), 0, 1);
+    target = p * (FILM.n - 1);
+    nav.classList.toggle('solid', r.bottom < innerHeight * 0.6);
+  }
+  function tick() {
+    const d = target - cur;
+    cur = Math.abs(d) < 0.02 || reduce ? target : cur + d * 0.22;
+    draw(); beatsAt(cur / (FILM.n - 1));
+    requestAnimationFrame(tick);
+  }
+  addEventListener('scroll', measure, { passive: true });
+  addEventListener('resize', () => { size(); measure(); });
+  size(); measure(); cur = target; beatsAt(cur / (FILM.n - 1));
+  loadAll(); requestAnimationFrame(tick);
+
+  /* origin carousel in "la taza" */
+  const tazaLots = [
+    { o: 'Jarabacoa, La Vega', t: 'Medio', n: 'Chocolate con leche, naranja, miel', k: 'Jarabacoa' },
+    { o: 'Polo, Barahona', t: 'Medio', n: 'Cereza, cacao, melaza', k: 'Polo' },
+    { o: 'San José de Ocoa', t: 'Medio claro', n: 'Ciruela, panela, flor de café', k: 'Ocoa' },
+    { o: 'Juncalito, Santiago', t: 'Medio oscuro', n: 'Avellana, caramelo, limón', k: 'Juncalito' },
+  ];
+  let lotIdx = 1;
+  function showLot(i) {
+    lotIdx = (i + tazaLots.length) % tazaLots.length; const l = tazaLots[lotIdx];
+    const tags = document.querySelectorAll('.taza .tag');
+    tags.forEach(t => t.classList.add('swap'));
+    setTimeout(() => {
+      document.getElementById('tOrigen').textContent = l.o;
+      document.getElementById('tTueste').textContent = l.t;
+      document.getElementById('tNotas').textContent = l.n;
+      document.getElementById('tCount').textContent = `0${lotIdx + 1} / 04`;
+      document.getElementById('orderLot').textContent = `Pedir V60 de ${l.k}`;
+      tags.forEach((t, j) => setTimeout(() => t.classList.remove('swap'), j * 70));
+    }, reduce ? 0 : 220);
+  }
+  document.getElementById('prevLot').addEventListener('click', () => showLot(lotIdx - 1));
+  document.getElementById('nextLot').addEventListener('click', () => showLot(lotIdx + 1));
+
+  document.getElementById('orderLot').addEventListener('click', e => {
+    const l = tazaLots[lotIdx]; add('v60-' + l.k, `V60 de ${l.k}`, 230);
+    const b = e.currentTarget, t = b.textContent; b.textContent = 'Agregado'; setTimeout(() => b.textContent = t, 900);
+  });
+  /* ---------- data ---------- */
+  const fmt = n => 'RD$ ' + n.toLocaleString('en-US');
+  const MENU = {
+    'Barra de espresso': [
+      ['espresso', 'Espresso', 'Blend Cordillera, doble carga.', 120],
+      ['cortadito', 'Cortadito', 'Espresso con un chin de leche, como en casa.', 140],
+      ['cappuccino', 'Cappuccino', 'Espuma fina, 6 oz.', 210],
+      ['latte-coco', 'Latte de coco', 'Leche de coco de Samaná y espresso.', 245],
+      ['mocha', 'Mocha de cacao', 'Cacao de San Francisco de Macorís, sin jarabes.', 260],
+    ],
+    'Filtrados': [
+      ['v60', 'V60 de origen', 'Elige entre los cuatro lotes de la temporada.', 230],
+      ['chemex', 'Chemex para compartir', 'Dos tazas, servido en mesa.', 390],
+      ['colao', 'Café colao', 'En colador de tela, el de la abuela.', 150],
+    ],
+    'Fríos': [
+      ['coldbrew', 'Cold brew 18 horas', 'Polo, Barahona. Suave y achocolatado.', 220],
+      ['tonica', 'Espresso con tónica y chinola', 'Cítrico y burbujeante para el calor de mediodía.', 260],
+      ['frappe', 'Frappé de dulce de leche', 'Con espresso y canela.', 275],
+    ],
+    'Para acompañar': [
+      ['pan', 'Pan de agua con mantequilla', 'Recién tostado.', 95],
+      ['croissant', 'Croissant de guayaba y queso', 'Hojaldre de mantequilla.', 165],
+      ['bizcocho', 'Bizcocho dominicano', 'Porción con suspiro.', 185],
+      ['arepita', 'Arepita de maíz', 'Dulce, con anís.', 120],
+    ],
+  };
+  const LOTS = [
+    { name: 'Jarabacoa', region: 'La Vega · Cordillera Central', alt: 1250, varietal: 'Caturra', process: 'Lavado', notes: 'Chocolate con leche, naranja, miel' },
+    { name: 'Polo', region: 'Barahona · Sierra de Bahoruco', alt: 1100, varietal: 'Típica', process: 'Natural', notes: 'Cereza, cacao, melaza' },
+    { name: 'Ocoa', region: 'San José de Ocoa', alt: 1350, varietal: 'Bourbon', process: 'Honey', notes: 'Ciruela, panela, flor de café' },
+    { name: 'Juncalito', region: 'Santiago · Cordillera Central', alt: 1000, varietal: 'Catuaí', process: 'Lavado', notes: 'Avellana, caramelo, limón' },
+  ];
+  const STORES = [
+    { name: 'Piantini', addr: 'Av. Gustavo Mejía Ricart, Santo Domingo', hours: [[1, 6, 7, 21], [0, 0, 8, 20]] },
+    { name: 'Zona Colonial', addr: 'Calle El Conde, Santo Domingo', hours: [[0, 6, 7, 22]] },
+    { name: 'Santiago', addr: 'Los Jardines Metropolitanos, Santiago', hours: [[1, 6, 7, 21], [0, 0, 8, 19]] },
+  ];
+  const PRODUCTS = { grano: ['Grano entero 12 oz', 695], molido: ['Molido Cordillera 10 oz', 595], capsulas: ['Cápsulas x10', 450] };
+  const ITEMS = {}; Object.values(MENU).flat().forEach(([id, n, , p]) => ITEMS[id] = { name: n, price: p });
+
+  /* menu */
+  const tabs = document.getElementById('tabs'), list = document.getElementById('menuList');
+  const cats = Object.keys(MENU); let curCat = cats[0];
+  function renderMenu() {
+    tabs.innerHTML = cats.map(c => `<button role="tab" id="tab-${c.replace(/\W/g, '')}" aria-selected="${c === curCat}">${c}</button>`).join('');
+    list.innerHTML = MENU[curCat].map(([id, n, d, p]) => `<li><h3>${n}</h3><span class="price">${fmt(p)}</span><button class="add" data-item="${id}" aria-label="Agregar ${n}">+</button><p>${d}</p></li>`).join('');
+  }
+  tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; curCat = b.textContent; renderMenu(); });
+  renderMenu();
+
+  /* lots */
+  document.getElementById('lots').innerHTML = LOTS.map((l, i) => `
+    <article class="lot">
+      <span class="mono">Lote 0${i + 1} · ${l.region}</span>
+      <h3>${l.name}</h3>
+      <dl><dt>Variedad</dt><dd>${l.varietal}</dd><dt>Proceso</dt><dd>${l.process}</dd><dt>Notas</dt><dd>${l.notes}</dd></dl>
+      <div class="alt"><b>${l.alt.toLocaleString('en-US')}<small>msnm</small></b><div class="meter" title="Escala 0–1,500 m"><span style="--h:${(l.alt / 1500 * 100).toFixed(0)}%"></span><em>1,500</em></div></div>
+    </article>`).join('');
+  document.getElementById('originSel').innerHTML = LOTS.map(l => `<option>${l.name}</option>`).join('');
+
+  /* stores + open now (Santo Domingo time) */
+  function nowDR() {
+    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Santo_Domingo', weekday: 'short', hour: 'numeric', hour12: false, minute: 'numeric' }).formatToParts(new Date());
+    const g = t => parts.find(p => p.type === t).value;
+    return { day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), h: (+g('hour') % 24) + (+g('minute')) / 60 };
+  }
+  const dayName = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+  function hoursFor(st, day) { return st.hours.find(([a, b]) => a <= b ? day >= a && day <= b : day === a) || st.hours.find(([a, b]) => a === 0 && b === 6); }
+  function renderStores() {
+    const { day, h } = nowDR();
+    document.getElementById('stores').innerHTML = STORES.map(st => {
+      const hr = hoursFor(st, day), open = hr && h >= hr[2] && h < hr[3];
+      const rows = st.hours.map(([a, b, o, c]) => `<span>${a === b ? dayName[a] : (a === 0 && b === 6 ? 'Todos los días' : dayName[a] + '–' + dayName[b])}</span><span>${o}:00–${c}:00</span>`).join('');
+      return `<article class="store"><span class="status ${open ? 'open' : ''}">${open ? 'Abierto ahora' : 'Cerrado ahora'}</span><h3>${st.name}</h3><p>${st.addr}</p><div class="hours">${rows}</div></article>`;
+    }).join('');
+    document.getElementById('pickup').innerHTML = STORES.map(s => `<option>${s.name}</option>`).join('') + '<option>Delivery</option>';
+  }
+  renderStores(); setInterval(renderStores, 60000);
+
+  /* club */
+  let freq = 2;
+  document.querySelectorAll('.freq button').forEach(b => b.addEventListener('click', () => {
+    freq = +b.dataset.freq;
+    document.querySelectorAll('.freq button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    document.getElementById('clubMonthly').textContent = fmt(freq === 2 ? 2500 : 1250) + ' al mes';
+  }));
+
+  /* cart */
+  const cart = new Map();
+  const cartEl = document.getElementById('cart'), body = document.getElementById('cartBody'), toggle = document.getElementById('cartToggle');
+  function add(id, label, price) {
+    const c = cart.get(id) || { label, price, q: 0 }; c.q++; cart.set(id, c); renderCart();
+  }
+  function renderCart() {
+    const lines = [...cart.entries()].filter(([, c]) => c.q > 0);
+    const n = lines.reduce((a, [, c]) => a + c.q, 0), total = lines.reduce((a, [, c]) => a + c.q * c.price, 0);
+    cartEl.classList.toggle('show', n > 0);
+    document.getElementById('cartCount').textContent = n;
+    document.getElementById('cartTotal').innerHTML = n ? `<span class="lbl-t">Tu pedido · </span>${fmt(total)}` : 'Tu pedido';
+    document.getElementById('cartList').innerHTML = lines.map(([id, c]) => `<li><span>${c.label}</span><span class="qty"><button data-dec="${id}" aria-label="Quitar uno">−</button>${c.q}<button data-inc="${id}" aria-label="Agregar uno">+</button></span><span class="price">${fmt(c.q * c.price)}</span></li>`).join('');
+    const msg = `Hola Bruma, quiero hacer este pedido:\n` + lines.map(([, c]) => `• ${c.q} × ${c.label}`).join('\n') + `\nTotal: ${fmt(total)}\nRetiro: ${document.getElementById('pickup').value}`;
+    document.getElementById('waLink').href = 'https://wa.me/18095550175?text=' + encodeURIComponent(msg);
+    if (!n) { body.hidden = true; toggle.setAttribute('aria-expanded', 'false'); }
+  }
+  document.getElementById('pickup').addEventListener('change', renderCart);
+  toggle.addEventListener('click', () => { body.hidden = !body.hidden; toggle.setAttribute('aria-expanded', String(!body.hidden)); });
+  document.getElementById('cartList').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const id = b.dataset.inc || b.dataset.dec, c = cart.get(id); if (!c) return;
+    c.q += b.dataset.inc ? 1 : -1; if (c.q <= 0) cart.delete(id); renderCart();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('.add');
+    if (a) { const it = ITEMS[a.dataset.item]; add(a.dataset.item, it.name, it.price); a.classList.add('pop'); setTimeout(() => a.classList.remove('pop'), 260); return; }
+    const p = e.target.closest('[data-add]'); if (!p) return;
+    const k = p.dataset.add;
+    if (k === 'club') add('club' + freq, `Club Bruma (${freq === 2 ? 'cada 2 semanas' : 'cada mes'})`, 1250);
+    else if (k === 'grano') { const o = document.getElementById('originSel').value; add('grano-' + o, `Grano entero 12 oz · ${o}`, 695); }
+    else add(k, PRODUCTS[k][0], PRODUCTS[k][1]);
+    const t = p.textContent; p.textContent = 'Agregado'; setTimeout(() => p.textContent = t, 900);
+  });
+  renderCart();
+})();
+</script>
+
+</body>
+</html>
