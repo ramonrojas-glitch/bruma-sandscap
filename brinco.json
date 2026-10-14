@@ -15,15 +15,63 @@
   "prefijoOrden": "BM",
   "moneda": "RD$",
   "envio": 120,
-  "entrega": { "delivery": true, "pickup": true, "deliveryMin": 25, "deliveryMax": 40, "pickupMin": 10 },
-  "sectores": ["Piantini", "Naco", "Evaristo Morales", "Serrallés", "Paraíso", "Julieta Morales", "Los Cacicazgos", "Bella Vista", "Gazcue", "Zona Colonial", "Arroyo Hondo", "Mirador Norte"],
-  "tienda": { "direccion": "Av. Gustavo Mejía Ricart, Piantini", "ciudad": "Santo Domingo", "mapa": "https://maps.google.com/?q=Av.+Gustavo+Mej%C3%ADa+Ricart,+Piantini,+Santo+Domingo" },
-  "producto": { "singular": "café", "plural": "cafés" },
+  "entrega": {
+    "delivery": true,
+    "pickup": true,
+    "deliveryMin": 25,
+    "deliveryMax": 40,
+    "pickupMin": 10
+  },
+  "sectores": [
+    "Piantini",
+    "Naco",
+    "Evaristo Morales",
+    "Serrallés",
+    "Paraíso",
+    "Julieta Morales",
+    "Los Cacicazgos",
+    "Bella Vista",
+    "Gazcue",
+    "Zona Colonial",
+    "Arroyo Hondo",
+    "Mirador Norte"
+  ],
+  "tienda": {
+    "direccion": "Av. Gustavo Mejía Ricart, Piantini",
+    "ciudad": "Santo Domingo",
+    "mapa": "https://maps.google.com/?q=Av.+Gustavo+Mej%C3%ADa+Ricart,+Piantini,+Santo+Domingo"
+  },
+  "tiendas": [
+    {
+      "nombre": "Piantini",
+      "direccion": "Av. Gustavo Mejía Ricart, Santo Domingo",
+      "mapa": "https://maps.google.com/?q=Av.+Gustavo+Mej%C3%ADa+Ricart%2C+Santo+Domingo"
+    },
+    {
+      "nombre": "Zona Colonial",
+      "direccion": "Calle El Conde, Santo Domingo",
+      "mapa": "https://maps.google.com/?q=Calle+El+Conde%2C+Santo+Domingo"
+    },
+    {
+      "nombre": "Santiago",
+      "direccion": "Los Jardines Metropolitanos, Santiago",
+      "mapa": "https://maps.google.com/?q=Los+Jardines+Metropolitanos%2C+Santiago"
+    }
+  ],
+  "producto": {
+    "singular": "café",
+    "plural": "cafés"
+  },
   "etapas": {
     "preparando": "Preparando tu café",
     "coccion": "En la barra",
     "coccionTexto": "Moliendo al momento y extrayendo tu espresso. Ya casi."
   },
-  "contacto": { "direccion": "Av. Gustavo Mejía Ricart, Piantini, Santo Domingo", "telefono": "809-555-0175", "correo": "hola@bruma.example", "instagram": "@bruma.cafe" },
+  "contacto": {
+    "direccion": "Av. Gustavo Mejía Ricart, Piantini, Santo Domingo",
+    "telefono": "809-555-0175",
+    "correo": "hola@bruma.example",
+    "instagram": "@bruma.cafe"
+  },
   "idioma": "es"
 }
