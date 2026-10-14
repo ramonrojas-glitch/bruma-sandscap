@@ -58,7 +58,12 @@ a{color:inherit}
 .btn:hover{background:var(--ink);color:var(--paper)}
 .btn.fill{background:var(--ink);color:var(--paper)}
 .btn.fill:hover{background:var(--cereza);border-color:var(--cereza)}
-@media (max-width:860px){.nav ul{display:none}}
+.nav-end{display:flex;align-items:center;gap:14px}
+.nav-mp{display:none;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);text-decoration:none}
+.nav .btn{white-space:nowrap}
+.nav-mp:hover{color:var(--cereza)}
+@media (max-width:860px){.nav ul{display:none}.nav-mp{display:grid}}
+@media (max-width:400px){.nav-end{gap:10px}.nav-end .btn{padding:10px 14px}}
 
 /* ---------- the film: one pinned stage, one continuous shot ---------- */
 .film{position:relative;height:1050vh;background:var(--paper)}
@@ -231,7 +236,7 @@ footer .demo{margin-top:40px;padding-top:20px;border-top:1px solid color-mix(in 
 .cart-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 10px 10px 20px}
 .cart-bar button.toggle{background:none;border:0;color:inherit;font:500 .92rem var(--f-body);cursor:pointer;display:flex;gap:10px;align-items:center;padding:6px 0;text-align:left}
 .cart-bar .count{display:inline-grid;place-items:center;min-width:24px;height:24px;border-radius:12px;background:var(--cereza);font-family:var(--f-mono);font-size:.75rem;padding:0 6px}
-.cart .btn.wa{white-space:nowrap;background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.cart .btn.wa{white-space:nowrap;font-weight:600;background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .cart .btn.wa:hover{background:#E29A8F;border-color:#E29A8F}
 .cart-body{padding:4px 20px 18px;display:grid;gap:10px;max-height:min(52vh,420px);overflow:auto}
 .cart-body ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -264,12 +269,20 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px)}
 .vault-line{display:flex;align-items:flex-start;justify-content:center;gap:7px;margin:0;font-size:12.5px;line-height:1.45;text-align:left;text-wrap:pretty;letter-spacing:normal;text-transform:none}
 .vault-line svg{margin-top:1px}
 .fvault b,.vault-line b{font-weight:600}
+footer .flinks{display:flex;flex-wrap:wrap;gap:8px 22px;margin:22px 0 0;font-size:.88rem}
+footer .flinks a{text-decoration:none;color:color-mix(in srgb,var(--paper) 80%,var(--ink))}
+footer .flinks a:hover{color:#E29A8F}
 footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--ink))}footer .fvault svg{color:#E29A8F}footer .fvault b{color:var(--paper)}
+/* Píldora de Brinco "Tu pedido…": cede su lugar a la barra del pedido y no tapa la tarjeta del video */
+html.bm-cart .bk-pill.bk-show{transform:translate(-50%,160%);visibility:hidden}
+@media (max-width:760px){html:has(.bk-pill.bk-show):not(.bm-cart) .side{bottom:calc(env(safe-area-inset-bottom,0px) + 112px)}}
 .cart-body .vault-line{justify-content:flex-start;color:color-mix(in srgb,var(--paper) 70%,var(--ink))}.cart-body .vault-line svg{color:#E29A8F}.cart-body .vault-line b{color:var(--paper)}
 </style>
 
 <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="https://piezza.sandscap.com.do/brinco/v1/kit.css">
+<script src="https://piezza.sandscap.com.do/brinco/v1/kit.js" defer></script>
 </head>
 <body>
 <header class="nav" id="nav">
@@ -282,8 +295,9 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
     <li><a href="#origenes">Orígenes</a></li>
     <li><a href="#tienda">Tienda</a></li>
     <li><a href="#visitanos">Visítanos</a></li>
+    <li><a data-brinco="mis-pedidos" href="/pedido/">Mis pedidos</a></li>
   </ul>
-  <a class="btn fill" href="#menu">Pedir ahora</a>
+  <div class="nav-end"><a class="nav-mp" data-brinco="mis-pedidos" href="/pedido/" aria-label="Mis pedidos" title="Mis pedidos"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></a><a class="btn fill" href="#menu">Pedir ahora</a></div>
 </header>
 
 <main id="top">
@@ -364,7 +378,7 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
   <section class="block wrap" id="menu">
     <div class="head">
       <div><span class="eyebrow mono">La barra</span><h2>Menú de la casa</h2></div>
-      <p>Lo clásico de cafetería con lo que solo se toma aquí: cortadito, café colao en colador de tela y espresso con chinola. Toca + para ir armando tu pedido y mándalo por WhatsApp.</p>
+      <p>Lo clásico de cafetería con lo que solo se toma aquí: cortadito, café colao en colador de tela y espresso con chinola. Toca + para ir armando tu pedido y págalo aquí mismo, para delivery o para retirar.</p>
     </div>
     <div class="menu-tabs" role="tablist" aria-label="Categorías del menú" id="tabs"></div>
     <ul class="menu-list" id="menuList"></ul>
@@ -440,10 +454,11 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
     <p class="big">bruma</p>
     <div class="cols">
       <div><b>Café de altura</b>Tostado en Jarabacoa, servido en Santo Domingo y Santiago.</div>
-      <div><b>Pedidos</b>WhatsApp 809-555-0175<br>hola@bruma.example</div>
+      <div><b>Pedidos</b>En línea, aquí mismo<br>WhatsApp 809-555-0175<br>hola@bruma.example</div>
       <div><b>Síguenos</b>@bruma.cafe en Instagram y TikTok</div>
     </div>
-    <p class="fvault"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco no guarda tarjetas. Tus datos de pago quedan protegidos por el procesador certificado PCI DSS: <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
+    <p class="fvault" data-brinco="vault-footer"></p>
+    <p class="flinks"><a data-brinco="mis-pedidos" href="/pedido/">Mis pedidos</a><a href="/seguridad/">Seguridad</a><a href="/privacidad/">Privacidad</a><a href="/terminos/">Términos</a></p>
     <p class="demo">Bruma es una marca de demostración creada por Sandscap para mostrar este estilo de sitio. Fotos y video generados con IA; precios, direcciones y teléfono son de ejemplo.</p>
   </div>
 </footer>
@@ -451,16 +466,11 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
 <aside class="cart" id="cart" aria-label="Tu pedido">
   <div class="cart-body" id="cartBody" hidden>
     <ul id="cartList"></ul>
-    <div>
-      <label for="pickup">Retirar en</label>
-      <select id="pickup"></select>
-    </div>
-    <p class="note">Demo: el pedido se arma como mensaje de WhatsApp a un número de prueba.</p>
     <p class="vault-line"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco no guarda tu tarjeta. La protegen <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
   </div>
   <div class="cart-bar">
     <button class="toggle" id="cartToggle" aria-expanded="false" aria-controls="cartBody"><span class="count" id="cartCount">0</span><span id="cartTotal">Tu pedido</span></button>
-    <a class="btn wa" id="waLink" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+    <button type="button" class="btn wa" id="checkoutBtn">Finalizar pedido</button>
   </div>
 </aside>
 
@@ -590,7 +600,7 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
   document.getElementById('nextLot').addEventListener('click', () => showLot(lotIdx + 1));
 
   document.getElementById('orderLot').addEventListener('click', e => {
-    const l = tazaLots[lotIdx]; add('v60-' + l.k, `V60 de ${l.k}`, 230);
+    const l = tazaLots[lotIdx]; add('v60-' + l.k, `V60 de ${l.k}`, 230, l.o, '/taza.webp');
     const b = e.currentTarget, t = b.textContent; b.textContent = 'Agregado'; setTimeout(() => b.textContent = t, 900);
   });
   /* ---------- data ---------- */
@@ -632,7 +642,7 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
     { name: 'Santiago', addr: 'Los Jardines Metropolitanos, Santiago', hours: [[1, 6, 7, 21], [0, 0, 8, 19]] },
   ];
   const PRODUCTS = { grano: ['Grano entero 12 oz', 695], molido: ['Molido Cordillera 10 oz', 595], capsulas: ['Cápsulas x10', 450] };
-  const ITEMS = {}; Object.values(MENU).flat().forEach(([id, n, , p]) => ITEMS[id] = { name: n, price: p });
+  const ITEMS = {}; Object.values(MENU).flat().forEach(([id, n, d, p]) => ITEMS[id] = { name: n, desc: d, price: p });
 
   /* menu */
   const tabs = document.getElementById('tabs'), list = document.getElementById('menuList');
@@ -669,7 +679,6 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
       const rows = st.hours.map(([a, b, o, c]) => `<span>${a === b ? dayName[a] : (a === 0 && b === 6 ? 'Todos los días' : dayName[a] + '–' + dayName[b])}</span><span>${o}:00–${c}:00</span>`).join('');
       return `<article class="store"><span class="status ${open ? 'open' : ''}">${open ? 'Abierto ahora' : 'Cerrado ahora'}</span><h3>${st.name}</h3><p>${st.addr}</p><div class="hours">${rows}</div></article>`;
     }).join('');
-    document.getElementById('pickup').innerHTML = STORES.map(s => `<option>${s.name}</option>`).join('') + '<option>Delivery</option>';
   }
   renderStores(); setInterval(renderStores, 60000);
 
@@ -684,10 +693,23 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
   /* cart */
   const cart = new Map();
   const cartEl = document.getElementById('cart'), body = document.getElementById('cartBody'), toggle = document.getElementById('cartToggle');
-  function add(id, label, price) {
-    const c = cart.get(id) || { label, price, q: 0 }; c.q++; cart.set(id, c); renderCart();
+  function add(id, label, price, detail, img) {
+    const c = cart.get(id) || { label, price, detail: detail || '', img: img || '/taza.webp', q: 0 }; c.q++; cart.set(id, c); renderCart();
     avisoAgregado(label);
+    if (window.Brinco && Brinco.track) Brinco.track('carrito', { producto: label, total: cartTotal() });
   }
+  const cartTotal = () => [...cart.values()].reduce((a, c) => a + c.q * c.price, 0);
+  /* adaptador para el pago con Brinco */
+  window.BrincoCart = {
+    items: () => [...cart.values()].filter(c => c.q > 0).map(c => ({ name: c.label, detail: c.detail, qty: c.q, unit: c.price, img: c.img })),
+    total: cartTotal,
+    clear: () => { cart.clear(); renderCart(); },
+    close: () => { body.hidden = true; toggle.setAttribute('aria-expanded', 'false'); },
+  };
+  document.getElementById('checkoutBtn').addEventListener('click', () => {
+    if (!cart.size) return;
+    if (window.Brinco && Brinco.checkout) Brinco.checkout();
+  });
   /* aviso junto al botón del pedido */
   const cartNote = document.createElement('div');
   cartNote.className = 'cart-note'; cartNote.setAttribute('role', 'status'); cartNote.setAttribute('aria-live', 'polite'); cartEl.appendChild(cartNote);
@@ -701,15 +723,12 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
   function renderCart() {
     const lines = [...cart.entries()].filter(([, c]) => c.q > 0);
     const n = lines.reduce((a, [, c]) => a + c.q, 0), total = lines.reduce((a, [, c]) => a + c.q * c.price, 0);
-    cartEl.classList.toggle('show', n > 0);
+    cartEl.classList.toggle('show', n > 0); document.documentElement.classList.toggle('bm-cart', n > 0);
     document.getElementById('cartCount').textContent = n;
     document.getElementById('cartTotal').innerHTML = n ? `<span class="lbl-t">Tu pedido · </span>${fmt(total)}` : 'Tu pedido';
     document.getElementById('cartList').innerHTML = lines.map(([id, c]) => `<li><span>${c.label}</span><span class="qty"><button data-dec="${id}" aria-label="Quitar uno">−</button>${c.q}<button data-inc="${id}" aria-label="Agregar uno">+</button></span><span class="price">${fmt(c.q * c.price)}</span></li>`).join('');
-    const msg = `Hola Bruma, quiero hacer este pedido:\n` + lines.map(([, c]) => `• ${c.q} × ${c.label}`).join('\n') + `\nTotal: ${fmt(total)}\nRetiro: ${document.getElementById('pickup').value}`;
-    document.getElementById('waLink').href = 'https://wa.me/18095550175?text=' + encodeURIComponent(msg);
     if (!n) { body.hidden = true; toggle.setAttribute('aria-expanded', 'false'); }
   }
-  document.getElementById('pickup').addEventListener('change', renderCart);
   toggle.addEventListener('click', () => { body.hidden = !body.hidden; toggle.setAttribute('aria-expanded', String(!body.hidden)); });
   document.getElementById('cartList').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
@@ -718,12 +737,13 @@ footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--in
   });
   document.addEventListener('click', e => {
     const a = e.target.closest('.add');
-    if (a) { const it = ITEMS[a.dataset.item]; add(a.dataset.item, it.name, it.price); a.classList.add('pop'); setTimeout(() => a.classList.remove('pop'), 260); return; }
+    if (a) { const it = ITEMS[a.dataset.item]; add(a.dataset.item, it.name, it.price, '', '/taza.webp'); a.classList.add('pop'); setTimeout(() => a.classList.remove('pop'), 260); return; }
     const p = e.target.closest('[data-add]'); if (!p) return;
     const k = p.dataset.add;
-    if (k === 'club') add('club' + freq, `Club Bruma (${freq === 2 ? 'cada 2 semanas' : 'cada mes'})`, 1250);
-    else if (k === 'grano') { const o = document.getElementById('originSel').value; add('grano-' + o, `Grano entero 12 oz · ${o}`, 695); }
-    else add(k, PRODUCTS[k][0], PRODUCTS[k][1]);
+    const BAG = '/apple-touch-icon.png';
+    if (k === 'club') add('club' + freq, 'Club Bruma', 1250, `Suscripción · ${freq === 2 ? 'cada 2 semanas' : 'cada mes'}`, BAG);
+    else if (k === 'grano') { const o = document.getElementById('originSel').value; add('grano-' + o, `Grano entero 12 oz · ${o}`, 695, 'Bolsa 12 oz', BAG); }
+    else add(k, PRODUCTS[k][0], PRODUCTS[k][1], '', BAG);
     const t = p.textContent; p.textContent = 'Agregado'; setTimeout(() => p.textContent = t, 900);
   });
   renderCart();

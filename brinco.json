@@ -1,0 +1,29 @@
+{
+  "negocio": "bruma",
+  "nombre": "Bruma",
+  "nombreLegal": "Bruma Café de Altura",
+  "dominio": "bruma.sandscap.com.do",
+  "logo": "/logo-bruma.png",
+  "logoBlanco": "/logo-bruma-blanco.png",
+  "favicon": "/favicon.png",
+  "color": "#9C2A22",
+  "colorTexto": "#231711",
+  "colorFondo": "#ECE3D5",
+  "fuenteTitulos": "Gloock",
+  "fuenteTexto": "Instrument Sans",
+  "googleFonts": "https://fonts.googleapis.com/css2?family=Gloock&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap",
+  "prefijoOrden": "BM",
+  "moneda": "RD$",
+  "envio": 120,
+  "entrega": { "delivery": true, "pickup": true, "deliveryMin": 25, "deliveryMax": 40, "pickupMin": 10 },
+  "sectores": ["Piantini", "Naco", "Evaristo Morales", "Serrallés", "Paraíso", "Julieta Morales", "Los Cacicazgos", "Bella Vista", "Gazcue", "Zona Colonial", "Arroyo Hondo", "Mirador Norte"],
+  "tienda": { "direccion": "Av. Gustavo Mejía Ricart, Piantini", "ciudad": "Santo Domingo", "mapa": "https://maps.google.com/?q=Av.+Gustavo+Mej%C3%ADa+Ricart,+Piantini,+Santo+Domingo" },
+  "producto": { "singular": "café", "plural": "cafés" },
+  "etapas": {
+    "preparando": "Preparando tu café",
+    "coccion": "En la barra",
+    "coccionTexto": "Moliendo al momento y extrayendo tu espresso. Ya casi."
+  },
+  "contacto": { "direccion": "Av. Gustavo Mejía Ricart, Piantini, Santo Domingo", "telefono": "809-555-0175", "correo": "hola@bruma.example", "instagram": "@bruma.cafe" },
+  "idioma": "es"
+}
