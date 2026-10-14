@@ -257,6 +257,15 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px)}
 .cart-note{position:absolute;left:12px;bottom:calc(100% + 8px);max-width:calc(100% - 24px);padding:9px 16px;border-radius:999px;background:var(--cereza);color:var(--paper);font:600 .86rem/1.25 var(--f-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 12px 26px -12px rgba(35,23,17,.6);opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s;pointer-events:none}
 .cart-note.show{opacity:1;visibility:visible;transform:none;transition:opacity .2s ease,transform .2s ease}
 @media (prefers-reduced-motion:reduce){.nav,.cart,.cart-note,.cart-note.show{transition:none}.cart-note{transform:none}.cart-bar .count.bump{animation:none}}
+
+/* Aviso de confianza: Brinco no guarda tarjetas (las protege AZUL, CardNet o MIO) */
+.fvault{display:flex;align-items:flex-start;gap:8px;max-width:560px;margin:0;font-size:13px;line-height:1.55;text-align:left;text-wrap:pretty;letter-spacing:normal;text-transform:none}
+.fvault svg,.vault-line svg{flex:none;margin-top:2px}
+.vault-line{display:flex;align-items:flex-start;justify-content:center;gap:7px;margin:0;font-size:12.5px;line-height:1.45;text-align:left;text-wrap:pretty;letter-spacing:normal;text-transform:none}
+.vault-line svg{margin-top:1px}
+.fvault b,.vault-line b{font-weight:600}
+footer .fvault{margin-top:32px;color:color-mix(in srgb,var(--paper) 72%,var(--ink))}footer .fvault svg{color:#E29A8F}footer .fvault b{color:var(--paper)}
+.cart-body .vault-line{justify-content:flex-start;color:color-mix(in srgb,var(--paper) 70%,var(--ink))}.cart-body .vault-line svg{color:#E29A8F}.cart-body .vault-line b{color:var(--paper)}
 </style>
 
 <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
@@ -434,6 +443,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px)}
       <div><b>Pedidos</b>WhatsApp 809-555-0175<br>hola@bruma.example</div>
       <div><b>Síguenos</b>@bruma.cafe en Instagram y TikTok</div>
     </div>
+    <p class="fvault"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco no guarda tarjetas. Tus datos de pago quedan protegidos por el procesador certificado PCI DSS: <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
     <p class="demo">Bruma es una marca de demostración creada por Sandscap para mostrar este estilo de sitio. Fotos y video generados con IA; precios, direcciones y teléfono son de ejemplo.</p>
   </div>
 </footer>
@@ -446,6 +456,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px)}
       <select id="pickup"></select>
     </div>
     <p class="note">Demo: el pedido se arma como mensaje de WhatsApp a un número de prueba.</p>
+    <p class="vault-line"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco no guarda tu tarjeta. La protegen <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
   </div>
   <div class="cart-bar">
     <button class="toggle" id="cartToggle" aria-expanded="false" aria-controls="cartBody"><span class="count" id="cartCount">0</span><span id="cartTotal">Tu pedido</span></button>
