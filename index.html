@@ -248,6 +248,15 @@ footer .demo{margin-top:40px;padding-top:20px;border-top:1px solid color-mix(in 
   .scroll-hint span{animation:none}
   .tag{transition:none}
 }
+
+/* Barra fija: con fondo apenas se baja, y aviso de "agregado" junto al botón del pedido */
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px)}
+.nav.solid{box-shadow:0 1px 0 var(--line),0 10px 24px -16px rgba(35,23,17,.45)}
+.cart-bar .count.bump{animation:brumaBump .45s ease}
+@keyframes brumaBump{40%{transform:scale(1.4)}}
+.cart-note{position:absolute;left:12px;bottom:calc(100% + 8px);max-width:calc(100% - 24px);padding:9px 16px;border-radius:999px;background:var(--cereza);color:var(--paper);font:600 .86rem/1.25 var(--f-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 12px 26px -12px rgba(35,23,17,.6);opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s;pointer-events:none}
+.cart-note.show{opacity:1;visibility:visible;transform:none;transition:opacity .2s ease,transform .2s ease}
+@media (prefers-reduced-motion:reduce){.nav,.cart,.cart-note,.cart-note.show{transition:none}.cart-note{transform:none}.cart-bar .count.bump{animation:none}}
 </style>
 
 <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
@@ -532,7 +541,7 @@ footer .demo{margin-top:40px;padding-top:20px;border-top:1px solid color-mix(in 
     const r = film.getBoundingClientRect();
     const p = clamp(-r.top / (r.height - innerHeight), 0, 1);
     target = p * (FILM.n - 1);
-    nav.classList.toggle('solid', r.bottom < innerHeight * 0.6);
+    nav.classList.toggle('solid', scrollY > 8 || r.bottom < innerHeight * 0.6);
   }
   function tick() {
     const d = target - cur;
@@ -666,6 +675,17 @@ footer .demo{margin-top:40px;padding-top:20px;border-top:1px solid color-mix(in 
   const cartEl = document.getElementById('cart'), body = document.getElementById('cartBody'), toggle = document.getElementById('cartToggle');
   function add(id, label, price) {
     const c = cart.get(id) || { label, price, q: 0 }; c.q++; cart.set(id, c); renderCart();
+    avisoAgregado(label);
+  }
+  /* aviso junto al botón del pedido */
+  const cartNote = document.createElement('div');
+  cartNote.className = 'cart-note'; cartNote.setAttribute('role', 'status'); cartNote.setAttribute('aria-live', 'polite'); cartEl.appendChild(cartNote);
+  let cartNoteT;
+  function avisoAgregado(nombre) {
+    cartNote.textContent = '✓ ' + nombre + ' en tu pedido';
+    cartNote.classList.add('show');
+    const n = document.getElementById('cartCount'); n.classList.remove('bump'); void n.offsetWidth; n.classList.add('bump');
+    clearTimeout(cartNoteT); cartNoteT = setTimeout(() => cartNote.classList.remove('show'), 2200);
   }
   function renderCart() {
     const lines = [...cart.entries()].filter(([, c]) => c.q > 0);
