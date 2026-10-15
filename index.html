@@ -701,7 +701,8 @@ html.bm-cart .bk-pill.bk-show{transform:translate(-50%,160%);visibility:hidden}
   const cartTotal = () => [...cart.values()].reduce((a, c) => a + c.q * c.price, 0);
   /* adaptador para el pago con Brinco */
   window.BrincoCart = {
-    items: () => [...cart.values()].filter(c => c.q > 0).map(c => ({ name: c.label, detail: c.detail, qty: c.q, unit: c.price, img: c.img })),
+    items: () => [...cart.entries()].filter(([, c]) => c.q > 0).map(([id, c]) => ({ name: c.label, detail: c.detail, qty: c.q, unit: c.price, img: c.img,
+      sku: { p: id.startsWith('v60-') ? 'v60' : id.startsWith('grano-') ? 'grano' : /^club\d/.test(id) ? 'club' : id } })),
     total: cartTotal,
     clear: () => { cart.clear(); renderCart(); },
     close: () => { body.hidden = true; toggle.setAttribute('aria-expanded', 'false'); },

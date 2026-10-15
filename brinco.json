@@ -73,5 +73,29 @@
     "correo": "hola@bruma.example",
     "instagram": "@bruma.cafe"
   },
-  "idioma": "es"
+  "idioma": "es",
+  "catalogo": {
+    "productos": {
+      "espresso": 120,
+      "cortadito": 140,
+      "cappuccino": 210,
+      "latte-coco": 245,
+      "mocha": 260,
+      "v60": 230,
+      "chemex": 390,
+      "colao": 150,
+      "coldbrew": 220,
+      "tonica": 260,
+      "frappe": 275,
+      "pan": 95,
+      "croissant": 165,
+      "bizcocho": 185,
+      "arepita": 120,
+      "grano": 695,
+      "molido": 595,
+      "capsulas": 450,
+      "club": 1250
+    },
+    "extras": {}
+  }
 }
